@@ -28,7 +28,9 @@ asset_precision = {
     "VESTS": 6,
     "SBD": 3,
     "GBG": 3,
-    "GOLOS": 3
+    "GOLOS": 3,
+    "VIT": 3,
+    "WIT": 3
 }
 
 
