@@ -671,7 +671,7 @@ class Account(BlockchainObject):
         """ List balances of an account. This call returns instances of
             :class:`beem.amount.Amount`.
         """
-        amount_list = ["balance", "sbd_balance", "vesting_shares"]
+        amount_list = ["balance", "vesting_shares"]
         available_amount = []
         for amount in amount_list:
             if amount in self:
@@ -689,7 +689,7 @@ class Account(BlockchainObject):
 
     @property
     def reward_balances(self):
-        amount_list = ["reward_steem_balance", "reward_sbd_balance", "reward_vesting_balance"]
+        amount_list = ["reward_steem_balance", "reward_vesting_balance"]
         rewards_amount = []
         for amount in amount_list:
             if amount in self:
@@ -698,13 +698,12 @@ class Account(BlockchainObject):
 
     @property
     def total_balances(self):
-        symbols = [self.available_balances[0]["symbol"], self.available_balances[1]["symbol"], self.available_balances[2]["symbol"]]
+        symbols = [self.available_balances[0]["symbol"], self.available_balances[1]["symbol"]]
         return [
             self.get_balance(self.available_balances, symbols[0]) + self.get_balance(self.saving_balances, symbols[0]) +
             self.get_balance(self.reward_balances, symbols[0]),
             self.get_balance(self.available_balances, symbols[1]) + self.get_balance(self.saving_balances, symbols[1]) +
-            self.get_balance(self.reward_balances, symbols[1]),
-            self.get_balance(self.available_balances, symbols[2]) + self.get_balance(self.reward_balances, symbols[2]),
+            self.get_balance(self.reward_balances, symbols[1])
         ]
 
     @property
@@ -2214,16 +2213,14 @@ class Account(BlockchainObject):
 
     def claim_reward_balance(self,
                              reward_steem='0 STEEM',
-                             reward_sbd='0 SBD',
                              reward_vests='0 VESTS',
                              account=None, **kwargs):
         """ Claim reward balances.
         By default, this will claim ``all`` outstanding balances. To bypass
         this behaviour, set desired claim amount by setting any of
-        `reward_steem`, `reward_sbd` or `reward_vests`.
+        `reward_steem`` or `reward_vests`.
 
         :param str reward_steem: Amount of STEEM you would like to claim.
-        :param str reward_sbd: Amount of SBD you would like to claim.
         :param str reward_vests: Amount of VESTS you would like to claim.
         :param str account: The source account for the claim if not
             ``default_account`` is used.
@@ -2240,13 +2237,11 @@ class Account(BlockchainObject):
         # account
 
         reward_steem = self._check_amount(reward_steem, "STEEM")
-        reward_sbd = self._check_amount(reward_sbd, "SBD")
         reward_vests = self._check_amount(reward_vests, "VESTS")
 
-        if reward_steem.amount == 0 and reward_sbd.amount == 0 and reward_vests.amount == 0:
+        if reward_steem.amount == 0 and reward_vests.amount == 0:
             reward_steem = account.balances["rewards"][0]
-            reward_sbd = account.balances["rewards"][1]
-            reward_vests = account.balances["rewards"][2]
+            reward_vests = account.balances["rewards"][1]
 
         op = operations.Claim_reward_balance(
             **{
