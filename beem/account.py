@@ -435,10 +435,10 @@ class Account(BlockchainObject):
             return [
                 c for c in self.steem.rpc.get_feed_entries({'account': account, 'start_entry_id': start_entry_id, 'limit': limit}, api='follow')["feed"]
             ]
-        elif raw_data and short_entries and not self.steem.rpc.get_use_appbase():
-            return [
-                c for c in self.steem.rpc.get_feed_entries(account, start_entry_id, limit, api='follow')
-            ]
+        # elif raw_data and short_entries and not self.steem.rpc.get_use_appbase():
+        #     return [
+        #         c for c in self.steem.rpc.get_feed_entries(account, start_entry_id, limit, api='follow')
+        #     ]
         elif raw_data and self.steem.rpc.get_use_appbase():
             return [
                 c for c in self.steem.rpc.get_feed({'account': account, 'start_entry_id': start_entry_id, 'limit': limit}, api='follow')["feed"]
@@ -2252,7 +2252,6 @@ class Account(BlockchainObject):
             **{
                 "account": account["name"],
                 "reward_steem": reward_steem,
-                "reward_sbd": reward_sbd,
                 "reward_vests": reward_vests,
                 "prefix": self.steem.prefix,
             })

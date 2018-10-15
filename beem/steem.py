@@ -297,6 +297,7 @@ class Steem(object):
             return reserve_ratio
 
     def get_feed_history(self, use_stored_data=True):
+        return False
         """ Returns the feed_history
 
             :param bool use_stored_data: if True, stored data will be returned. If stored data are
