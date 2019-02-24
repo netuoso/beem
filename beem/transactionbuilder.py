@@ -290,10 +290,15 @@ class TransactionBuilder(dict):
             return
         # We need to set the default prefix, otherwise pubkeys are
         # presented wrongly!
-        if self.steem.rpc is not None:
-            operations.default_prefix = (
-                self.steem.chain_params["prefix"])
-        elif "blockchain" in self:
+
+        #############################################
+        # if self.steem.rpc is not None:
+            # TODO: REMOVE THIS? CAUSING ISSUES
+            # operations.default_prefix = (
+            #     self.steem.chain_params["prefix"])
+        #############################################
+
+        if "blockchain" in self:
             operations.default_prefix = self["blockchain"]["prefix"]
 
         try:

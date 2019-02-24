@@ -19,7 +19,7 @@ except ImportError:
 from beemgraphenebase.account import PrivateKey, PublicKey
 from .objects import Memo
 import struct
-default_prefix = "STM"
+default_prefix = "PEV"
 
 
 def get_shared_secret(priv, pub):
