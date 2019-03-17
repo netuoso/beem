@@ -33,8 +33,8 @@ class Benchmark(object):
 
 class Transaction(Benchmark):
     def setup(self):
-        self.prefix = u"STEEM"
-        self.default_prefix = u"STM"
+        self.prefix = u"PEV"
+        self.default_prefix = u"PEV"
         self.wif = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"
         self.ref_block_num = 34294
         self.ref_block_prefix = 3707022213
@@ -51,7 +51,7 @@ class Transaction(Benchmark):
                                 expiration=self.expiration,
                                 operations=ops)
         tx = tx.sign([self.wif], chain=self.prefix)
-        tx.verify([PrivateKey(self.wif, prefix=u"STM").pubkey], self.prefix)
+        tx.verify([PrivateKey(self.wif, prefix=u"PEV").pubkey], self.prefix)
         txWire = hexlify(py23_bytes(tx)).decode("ascii")
 
     def time_emptyOp(self):
