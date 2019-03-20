@@ -121,7 +121,7 @@ class Account(BlockchainObject):
 
     def _parse_json_data(self, account):
         parse_int = [
-            "sbd_seconds", "savings_sbd_seconds", "average_bandwidth", "lifetime_bandwidth", "lifetime_market_bandwidth", "reputation", "withdrawn", "to_withdraw",
+            "pbd_seconds", "savings_pbd_seconds", "average_bandwidth", "lifetime_bandwidth", "lifetime_market_bandwidth", "reputation", "withdrawn", "to_withdraw",
         ]
         for p in parse_int:
             if p in account and isinstance(account.get(p), string_types):
@@ -136,8 +136,8 @@ class Account(BlockchainObject):
             account["proxied_vsf_votes"] = proxied_vsf_votes
         parse_times = [
             "last_owner_update", "last_account_update", "created", "last_owner_proved", "last_active_proved",
-            "last_account_recovery", "last_vote_time", "sbd_seconds_last_update", "sbd_last_interest_payment",
-            "savings_sbd_seconds_last_update", "savings_sbd_last_interest_payment", "next_vesting_withdrawal",
+            "last_account_recovery", "last_vote_time", "pbd_seconds_last_update", "pbd_last_interest_payment",
+            "savings_pbd_seconds_last_update", "pavings_sbd_last_interest_payment", "next_vesting_withdrawal",
             "last_market_bandwidth_update", "last_post", "last_root_post", "last_bandwidth_update"
         ]
         for p in parse_times:
@@ -148,9 +148,9 @@ class Account(BlockchainObject):
             "balance",
             "savings_balance",
             "sbd_balance",
-            "savings_sbd_balance",
-            "reward_sbd_balance",
-            "reward_steem_balance",
+            "savings_pbd_balance",
+            "reward_pbd_balance",
+            "reward_pev_balance",
             "reward_vesting_balance",
             "reward_vesting_steem",
             "vesting_shares",
@@ -167,7 +167,7 @@ class Account(BlockchainObject):
     def json(self):
         output = self.copy()
         parse_int = [
-            "sbd_seconds", "savings_sbd_seconds",
+            "pbd_seconds", "savings_pbd_seconds",
         ]
         parse_int_without_zero = [
             "withdrawn", "to_withdraw", "lifetime_bandwidth", 'average_bandwidth',
@@ -188,8 +188,8 @@ class Account(BlockchainObject):
             output["proxied_vsf_votes"] = proxied_vsf_votes
         parse_times = [
             "last_owner_update", "last_account_update", "created", "last_owner_proved", "last_active_proved",
-            "last_account_recovery", "last_vote_time", "sbd_seconds_last_update", "sbd_last_interest_payment",
-            "savings_sbd_seconds_last_update", "savings_sbd_last_interest_payment", "next_vesting_withdrawal",
+            "last_account_recovery", "last_vote_time", "pbd_seconds_last_update", "pbd_last_interest_payment",
+            "savings_pbd_seconds_last_update", "pavings_sbd_last_interest_payment", "next_vesting_withdrawal",
             "last_market_bandwidth_update", "last_post", "last_root_post", "last_bandwidth_update"
         ]
         for p in parse_times:
@@ -203,9 +203,9 @@ class Account(BlockchainObject):
             "balance",
             "savings_balance",
             "sbd_balance",
-            "savings_sbd_balance",
-            "reward_sbd_balance",
-            "reward_steem_balance",
+            "savings_pbd_balance",
+            "reward_pbd_balance",
+            "reward_pev_balance",
             "reward_vesting_balance",
             "reward_vesting_steem",
             "vesting_shares",
@@ -894,7 +894,7 @@ class Account(BlockchainObject):
     @property
     def saving_balances(self):
         savings_amount = []
-        amount_list = ["savings_balance", "savings_sbd_balance"]
+        amount_list = ["savings_balance", "savings_pbd_balance"]
         for amount in amount_list:
             if amount in self:
                 savings_amount.append(self[amount])
@@ -902,7 +902,7 @@ class Account(BlockchainObject):
 
     @property
     def reward_balances(self):
-        amount_list = ["reward_steem_balance", "reward_sbd_balance", "reward_vesting_balance"]
+        amount_list = ["reward_pev_balance", "reward_pbd_balance", "reward_vesting_balance"]
         rewards_amount = []
         for amount in amount_list:
             if amount in self:
@@ -1013,12 +1013,12 @@ class Account(BlockchainObject):
                 }
 
         """
-        last_payment = (self["sbd_last_interest_payment"])
+        last_payment = (self["pbd_last_interest_payment"])
         next_payment = last_payment + timedelta(days=30)
         interest_rate = self.steem.get_dynamic_global_properties()[
-            "sbd_interest_rate"] / 100  # percent
+            "pbd_interest_rate"] / 100  # percent
         interest_amount = (interest_rate / 100) * int(
-            int(self["sbd_seconds"]) / (60 * 60 * 24 * 356)) * 10**-3
+            int(self["pbd_seconds"]) / (60 * 60 * 24 * 356)) * 10**-3
         return {
             "interest": interest_amount,
             "last_payment": last_payment,
@@ -2604,8 +2604,8 @@ class Account(BlockchainObject):
                 op = operations.Claim_reward_balance(
                     **{
                         "account": account["name"],
-                        "reward_steem": reward_steem,
-                        "reward_sbd": reward_sbd,
+                        "reward_pev": reward_steem,
+                        "reward_pbd": reward_sbd,
                         "reward_vests": reward_vests,
                         "prefix": self.steem.prefix,
                     })
@@ -2615,7 +2615,7 @@ class Account(BlockchainObject):
                 op = operations.Claim_reward_balance(
                     **{
                         "account": account["name"],
-                        "reward_steem": reward_steem,
+                        "reward_pev": reward_steem,
                         "reward_vests": reward_vests,
                         "prefix": self.steem.prefix,
                     })

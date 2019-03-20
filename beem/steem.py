@@ -551,7 +551,7 @@ class Steem(object):
         global_properties = self.get_dynamic_global_properties(use_stored_data=use_stored_data)
 
         return (
-            Amount(global_properties['total_vesting_fund_steem'], steem_instance=self).amount /
+            Amount(global_properties['total_vesting_fund_pev'], steem_instance=self).amount /
             (Amount(global_properties['total_vesting_shares'], steem_instance=self).amount / 1e6)
         )
 
