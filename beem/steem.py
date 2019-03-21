@@ -418,7 +418,7 @@ class Steem(object):
         try:
             return self.rpc.get_network()
         except:
-            return known_chains["STEEM"]
+            return known_chains["PEV"]
 
     def get_median_price(self, use_stored_data=True):
         """ Returns the current median history price as Price
@@ -803,7 +803,7 @@ class Steem(object):
     @property
     def chain_params(self):
         if self.offline or self.rpc is None:
-            return known_chains["STEEM"]
+            return known_chains["PEV"]
         else:
             return self.get_network()
 
