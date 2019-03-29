@@ -22,7 +22,7 @@ from beemgraphenebase.objects import Operation as GPHOperation
 from beemgraphenebase.chains import known_chains
 from .operationids import operations, operations_wls
 import struct
-default_prefix = "STM"
+default_prefix = "TST"
 
 
 @python_2_unicode_compatible

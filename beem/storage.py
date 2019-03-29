@@ -180,7 +180,7 @@ class Key(DataDir):
         cursor.execute(query)
         connection.commit()
 
-    def getPublicKeys(self, prefix="STM"):
+    def getPublicKeys(self, prefix="TST"):
         """ Returns the public keys stored in the database
         """
         query = ("SELECT pub from {0} ".format(self.__tablename__))

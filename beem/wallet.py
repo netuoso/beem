@@ -150,7 +150,7 @@ class Wallet(object):
         else:
             # If not connected, load prefix from config
             prefix = config["prefix"]
-        return prefix or "STM"   # default prefix is STM
+        return prefix or "TST"   # default prefix is STM
 
     @property
     def rpc(self):

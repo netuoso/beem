@@ -28,7 +28,7 @@ class PasswordKey(object):
         passphrase only.
     """
 
-    def __init__(self, account, password, role="active", prefix="STM"):
+    def __init__(self, account, password, role="active", prefix="TST"):
         self.account = account
         self.role = role
         self.password = password
@@ -161,7 +161,7 @@ class Address(object):
            Address("STMFN9r6VYzBK8EKtMewfNbfiGCr56pHDBFi")
 
     """
-    def __init__(self, address=None, pubkey=None, prefix="STM"):
+    def __init__(self, address=None, pubkey=None, prefix="TST"):
         self.prefix = prefix
         if pubkey is not None:
             self._pubkey = Base58(pubkey, prefix=prefix)
@@ -263,7 +263,7 @@ class PublicKey(Address):
                       PublicKey("xxxxx").unCompressed()
 
     """
-    def __init__(self, pk, prefix="STM"):
+    def __init__(self, pk, prefix="TST"):
         """Init PublicKey
             :param str pk: Base58 encoded public key
             :param str prefix: Network prefix (defaults to ``STM``)
@@ -359,7 +359,7 @@ class PrivateKey(PublicKey):
             Instance of :class:`Address` using uncompressed key.
 
     """
-    def __init__(self, wif=None, prefix="STM"):
+    def __init__(self, wif=None, prefix="TST"):
         if wif is None:
             self._wif = Base58(hexlify(os.urandom(32)).decode('ascii'), prefix=prefix)
         elif isinstance(wif, Base58):
